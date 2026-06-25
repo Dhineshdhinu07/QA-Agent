@@ -14,8 +14,8 @@ You provide:
   - The test type (smoke | sanity | happy_path | full)
 
 The system:
-  1. Reads and parses the ticket (Node 1)
-  2. Retrieves relevant context from its knowledge base (Node 2)
+  1. Reads and parses the ticket — .txt or screenshot (.png/.jpg) via Claude Haiku vision (Node 1)
+  2. Retrieves relevant context from its knowledge base — ChromaDB, max 6 chunks (Node 2)
   3. Generates a structured test plan using Claude Sonnet (Node 3)
   4. Opens a real browser and executes every test step via Playwright (Node 4)
   5. Reflects on failures — retries once if the test was wrong, not the app (Node 5)

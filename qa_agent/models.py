@@ -169,11 +169,13 @@ class PipelineState(TypedDict):
     adds its output, and passes the updated version to the next node.
     Every field starts as None and gets filled in as the pipeline runs.
     """
-    # ── Set at startup ──
+    # ── Set at startup by the CLI (main.py) ──
     ticket_id: str
     staging_url: str
     test_type: TestType
     run_id: str
+    ticket_file_path: str               # path to .txt or image file
+    doc_file_paths: list[str]           # paths to BRD/requirement .md files (may be empty)
 
     # ── Filled by Node 1 ──
     jira_ticket: Optional[JiraTicket]
