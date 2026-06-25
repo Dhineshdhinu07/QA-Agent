@@ -1,0 +1,24 @@
+# Environment — never commit real credentials
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Test artifacts
+screenshots/
+reports/
+
+# Database files
+*.db
+*.sqlite
+
+# ChromaDB local storage
+chroma_db/
+
+# OS
+.DS_Store
