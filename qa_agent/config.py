@@ -52,9 +52,11 @@ class Settings(BaseSettings):
         description="Merchant to select after login — always this value unless overridden",
     )
 
-    # ── GitHub ────────────────────────────────────────────────────────────────
-    github_token: str = Field(description="GitHub personal access token for posting PR comments")
-    github_repo: str = Field(description="Target repo in org/repo format, e.g. friendbuy/platform")
+    # ── GitHub (Phase 2 — not required in Phase 1) ───────────────────────────
+    # Phase 1: reports are saved locally as markdown files.
+    # Phase 2: wire up github_tool.py to post reports as PR comments.
+    github_token: str = Field(default="", description="GitHub personal access token for posting PR comments")
+    github_repo: str = Field(default="", description="Target repo in org/repo format, e.g. friendbuy/platform")
 
     # ── Jira (Phase 2 — not required in Phase 1) ──────────────────────────────
     jira_base_url: str = Field(default="", description="e.g. https://friendbuy.atlassian.net")

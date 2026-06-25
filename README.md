@@ -22,9 +22,10 @@ The system:
   6. Writes a structured markdown QA report (pass/fail, screenshots, risk notes, APPROVE/FLAG recommendation) via Claude Sonnet, writes memory back to ChromaDB (Node 6)
 
 Output:
-  - A markdown report saved locally
-  - Report posted as a GitHub PR comment
+  - A markdown report saved to reports/{run_id}/report.md
+  - Screenshots saved to screenshots/{run_id}/
   - Run history + token cost stored in SQLite
+  (Phase 2: report will also be posted as a GitHub PR comment automatically)
 ```
 
 ---
@@ -104,10 +105,10 @@ Required variables for Phase 1:
 | `SANDBOX_URL`          | Friendbuy sandbox base URL               |
 | `SANDBOX_USERNAME`     | Sandbox login email                      |
 | `SANDBOX_PASSWORD`     | Sandbox login password                   |
-| `GITHUB_TOKEN`         | GitHub personal access token             |
-| `GITHUB_REPO`          | Target repo in `org/repo` format         |
 
 `SANDBOX_MERCHANT_NAME` defaults to `Queen's Consolidated` — only set it if you need to override.
+
+`GITHUB_TOKEN` and `GITHUB_REPO` are optional in Phase 1 — reports are saved locally. They will be used in Phase 2 for automatic PR comment posting.
 
 ---
 
@@ -237,7 +238,8 @@ qa-agent/
 - Playwright executing real test steps on sandbox (with login + merchant selection)
 - Ticket input from `.txt` file or screenshot (`.png`/`.jpg`)
 - BRD/requirement docs ingested into ChromaDB at run time
-- Report posted as GitHub PR comment
+- Report saved to `reports/{run_id}/report.md` — QA engineer shares manually
+- Screenshots saved to `screenshots/{run_id}/`
 - Run history stored in SQLite
 - Token usage logged per run
 

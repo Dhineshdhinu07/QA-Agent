@@ -37,7 +37,8 @@ from qa_agent.models import (
     TestType,
 )
 
-_PROMPTS_DIR = Path(__file__).parent.parent / "prompts"
+_PROMPTS_DIR  = Path(__file__).parent.parent / "prompts"
+_REPORTS_DIR  = Path(__file__).parent.parent.parent / "reports"
 _SYSTEM_PROMPT = (_PROMPTS_DIR / "report.txt").read_text(encoding="utf-8")
 
 
@@ -72,6 +73,10 @@ async def generate_report(state: PipelineState) -> dict:
 
         # ── Call Sonnet ───────────────────────────────────────────────────────
         report_markdown = await _call_sonnet(report_input, run_id)
+
+        # ── Save report to disk ───────────────────────────────────────────────
+        report_path = _save_report(report_markdown, run_id, ticket.ticket_id)
+        logger.info(f"[{run_id}] Report saved to {report_path}")
 
         # ── Determine overall run status ──────────────────────────────────────
         run_status = "passed" if not failed else "failed"
@@ -264,6 +269,23 @@ def _write_memory(
         logger.info(f"[{run_id}] Memory written to ticket_memory")
     except Exception as exc:
         logger.warning(f"[{run_id}] Memory write-back failed (non-fatal): {exc}")
+
+
+# ── Report file save ─────────────────────────────────────────────────────────
+
+def _save_report(markdown: str, run_id: str, ticket_id: str) -> Path:
+    """
+    Save the markdown report to reports/{run_id}/report.md.
+
+    The QA engineer opens this file, reads it, and manually shares it
+    with the developer or posts it to the GitHub PR if needed.
+    GitHub posting will be automated in Phase 2 via github_tool.py.
+    """
+    report_dir = _REPORTS_DIR / run_id
+    report_dir.mkdir(parents=True, exist_ok=True)
+    report_path = report_dir / "report.md"
+    report_path.write_text(markdown, encoding="utf-8")
+    return report_path
 
 
 # ── Fallback report ───────────────────────────────────────────────────────────
