@@ -111,6 +111,34 @@ Required variables for Phase 1:
 
 ---
 
+## Storage
+
+### Run database (`qa_agent.db`)
+
+Every pipeline run is recorded in a local SQLite database at the repo root.
+
+| Table         | What it stores                                                  |
+|---------------|-----------------------------------------------------------------|
+| `runs`        | One row per pipeline run — status, pass/fail counts, total cost |
+| `token_logs`  | One row per Claude API call — capability, model, tokens, cost   |
+
+The `token_logs` table lets you audit cost at a per-capability level, not just per run. Example: if a run costs more than expected, you can query which node was responsible.
+
+Run history commands (Phase 1 — via Python directly; CLI commands added in Phase 2):
+
+```python
+from qa_agent.memory.run_store import list_runs, get_run_token_breakdown
+import asyncio
+
+# List last 10 runs
+runs = asyncio.run(list_runs(limit=10))
+
+# Cost breakdown for a specific run
+breakdown = asyncio.run(get_run_token_breakdown("run-id-here"))
+```
+
+---
+
 ## CLI usage
 
 ```bash
