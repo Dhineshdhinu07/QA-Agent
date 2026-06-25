@@ -18,7 +18,7 @@ The system:
   2. Ingests any BRD docs into ChromaDB, queries all 3 collections, summarises to 5 lines via Haiku (Node 2)
   3. Generates a structured TestPlan (test cases + Playwright steps + risk levels) via Claude Sonnet (Node 3)
   4. Logs into sandbox (login form + merchant selection), runs test cases in 3 concurrent browser sessions via Playwright (Node 4)
-  5. Reflects on failures — retries once if the test was wrong, not the app (Node 5)
+  5. Classifies each failure as bad_test or real_bug via Haiku — retries Node 3 with hints if bad_test (max 2×) (Node 5)
   6. Writes a markdown QA report with screenshots and risk notes (Node 6)
 
 Output:
