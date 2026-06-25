@@ -1,0 +1,24 @@
+# Model routing — which Claude model handles which capability.
+# Rule: expensive reasoning tasks → Sonnet. Fast/cheap tasks → Haiku.
+# Never change a model here without discussing cost + quality trade-offs first.
+
+capability_map:
+  # Reads a ticket file or screenshot and extracts structured fields.
+  # Haiku is used here because it's a reading/extraction task, not deep reasoning.
+  ticket_extraction: claude-haiku-4-5-20251001
+
+  # Reads the ticket + retrieved context and produces the full TestPlan.
+  # Sonnet is used because this is the most reasoning-heavy step in the pipeline.
+  test_plan_generation: claude-sonnet-4-6
+
+  # Writes the final markdown QA report.
+  # Sonnet is used because report quality is what the human reviewer sees.
+  report_generation: claude-sonnet-4-6
+
+  # Converts a high-level test intent into concrete Playwright TestSteps.
+  # Haiku is used because this is a structured translation task, not reasoning.
+  step_conversion: claude-haiku-4-5-20251001
+
+  # Summarizes retrieved ChromaDB chunks down to 5 lines before injecting into prompts.
+  # Haiku is used because summarization is cheap and fast.
+  context_summarization: claude-haiku-4-5-20251001

@@ -1,0 +1,28 @@
+# AI + orchestration
+anthropic>=0.40.0
+langchain>=0.3.0
+langgraph>=0.2.0
+
+# Browser automation
+playwright>=1.40.0
+
+# API server (Phase 1: CLI only — server.py used in Phase 2)
+fastapi>=0.110.0
+uvicorn>=0.27.0
+
+# Data modelling + validation
+pydantic>=2.5.0
+
+# Async SQLite (run history store)
+aiosqlite>=0.19.0
+
+# Config + HTTP
+python-dotenv>=1.0.0
+httpx>=0.26.0
+PyYAML>=6.0
+
+# Logging
+loguru>=0.7.0
+
+# Vector store (Phase 1-2; replaced by pgvector in Phase 3)
+chromadb>=0.4.0
