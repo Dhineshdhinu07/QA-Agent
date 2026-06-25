@@ -113,6 +113,24 @@ Required variables for Phase 1:
 
 ## Storage
 
+### Vector store (`chroma_db/`)
+
+The knowledge base is stored locally in `chroma_db/` using ChromaDB. Three collections:
+
+| Collection          | What it stores                                           | Written by              |
+|---------------------|----------------------------------------------------------|-------------------------|
+| `ticket_memory`     | Past run results and failure patterns per ticket/feature | Node 6 after every run  |
+| `test_patterns`     | General QA patterns (forms, email triggers, redirects)   | Hand-populated once     |
+| `product_knowledge` | Stable Friendbuy domain knowledge + BRD docs per run     | CLI startup + hand-populated |
+
+BRD docs are ingested at run time, chunked by markdown heading, and stored with `ticket_id` metadata so retrieval is scoped to the relevant ticket.
+
+**Idempotency:** Every document is stored with a SHA-256 content hash as its ID. Running the same BRD file twice is a no-op — no duplicates accumulate.
+
+**Embedding model:** ChromaDB uses `all-MiniLM-L6-v2` locally (~80MB, downloaded once on first run). No external API call, no cost, works offline.
+
+---
+
 ### Run database (`qa_agent.db`)
 
 Every pipeline run is recorded in a local SQLite database at the repo root.
