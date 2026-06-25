@@ -19,7 +19,7 @@ The system:
   3. Generates a structured TestPlan (test cases + Playwright steps + risk levels) via Claude Sonnet (Node 3)
   4. Logs into sandbox (login form + merchant selection), runs test cases in 3 concurrent browser sessions via Playwright (Node 4)
   5. Classifies each failure as bad_test or real_bug via Haiku — retries Node 3 with hints if bad_test (max 2×) (Node 5)
-  6. Writes a markdown QA report with screenshots and risk notes (Node 6)
+  6. Writes a structured markdown QA report (pass/fail, screenshots, risk notes, APPROVE/FLAG recommendation) via Claude Sonnet, writes memory back to ChromaDB (Node 6)
 
 Output:
   - A markdown report saved locally
