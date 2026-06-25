@@ -162,25 +162,39 @@ breakdown = asyncio.run(get_run_token_breakdown("run-id-here"))
 
 ```bash
 # Run a smoke test from a .txt ticket file
-python main.py run \
+python qa_agent/main.py run \
   --ticket tickets/FB-1234.txt \
   --url https://sandbox.friendbuy.com \
   --type smoke
 
-# Run a full test with a ticket screenshot and BRD docs
-python main.py run \
+# Run a full test with a ticket screenshot and two BRD docs
+python qa_agent/main.py run \
   --ticket tickets/FB-1234.png \
-  --docs docs/brd.md docs/specs.md \
+  --docs docs/brd.md \
+  --docs docs/specs.md \
   --url https://sandbox.friendbuy.com \
   --type full
 
-# Override sandbox credentials at runtime
-python main.py run \
+# Override sandbox credentials at runtime (overrides .env)
+python qa_agent/main.py run \
   --ticket tickets/FB-1234.txt \
   --url https://sandbox.friendbuy.com \
   --type smoke \
   --username admin@friendbuy.com \
   --password mysecret
+
+# Override ticket ID (default: inferred from filename)
+python qa_agent/main.py run \
+  --ticket tickets/my-feature.txt \
+  --ticket-id FB-1234 \
+  --url https://sandbox.friendbuy.com \
+  --type happy_path
+
+# View recent run history
+python qa_agent/main.py history
+
+# Filter history by ticket
+python qa_agent/main.py history --ticket FB-1234
 ```
 
 ---

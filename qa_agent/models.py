@@ -196,5 +196,10 @@ class PipelineState(TypedDict):
     # ── Filled by Node 6 ──
     report_markdown: Optional[str]
 
+    # ── Internal routing (set by reflect, read by graph.py) ──
+    # "retry" → back to generate_test_plan
+    # "done"  → forward to generate_report
+    __route__: Optional[str]
+
     # ── Error propagation ──
     error: Optional[str]
