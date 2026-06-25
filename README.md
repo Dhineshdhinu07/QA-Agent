@@ -16,7 +16,7 @@ You provide:
 The system:
   1. Reads and parses the ticket — .txt or screenshot (.png/.jpg) via Claude Haiku vision (Node 1)
   2. Ingests any BRD docs into ChromaDB, queries all 3 collections, summarises to 5 lines via Haiku (Node 2)
-  3. Generates a structured test plan using Claude Sonnet (Node 3)
+  3. Generates a structured TestPlan (test cases + Playwright steps + risk levels) via Claude Sonnet (Node 3)
   4. Opens a real browser and executes every test step via Playwright (Node 4)
   5. Reflects on failures — retries once if the test was wrong, not the app (Node 5)
   6. Writes a markdown QA report with screenshots and risk notes (Node 6)
